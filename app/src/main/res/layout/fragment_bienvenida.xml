@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools   = "http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Activity_Jugadores"
+    android:background="@drawable/defuminado"
+    tools:context=".ui.fragments.Bienvenida_fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtBienvenida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/quicksand_light"
+            android:text="Triva Nica"
+            android:textSize="@dimen/TTextoTextView"
+            android:textColor="@color/black"
+            android:textStyle="bold">
+        </TextView>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtBienvenida"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/banderanicaragua">
+        </pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:id="@+id/txtBienvenidaPregunta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/gifImageView"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/quicksand_light"
+            android:text="@string/PJ_Mensaje"
+            android:textColor="@color/black"
+            android:paddingHorizontal="30sp"
+            android:textAlignment="center"
+            android:textSize="@dimen/TTextoTextView"
+            android:textStyle="bold">
+        </TextView>
+
+        <Button
+            android:id="@+id/BotonComenzar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtBienvenidaPregunta"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#99CB38"
+            android:fontFamily="@font/quicksand_light"
+            android:text="@string/PJ_btn"
+            android:textColor="@color/black"
+            android:textSize="@dimen/TTextoButton"></Button>
+
+    </RelativeLayout>
+
+</FrameLayout>

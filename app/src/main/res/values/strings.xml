@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Trivia Nica</string>
+    <string name="PJ_Mensaje">Prueba tus conocimientos sobre Nicaragua</string>
+    <string name="PJ_btn">Jugar</string>
+</resources>

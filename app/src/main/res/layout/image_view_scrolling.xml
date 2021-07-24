@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".ui.animacionTombola.ImageViewScrolling">
+
+    <ImageView
+        android:id="@+id/ImagenActual"
+        android:layout_width="@dimen/TimageViewScrolling"
+        android:layout_height="@dimen/TimageViewScrolling"
+        >
+    </ImageView>
+    <ImageView
+        android:id="@+id/ImagenProxima"
+        android:layout_width="@dimen/TimageViewScrolling"
+        android:layout_height="@dimen/TimageViewScrolling"
+        android:src="@drawable/logo"
+        >
+    </ImageView>
+</FrameLayout>

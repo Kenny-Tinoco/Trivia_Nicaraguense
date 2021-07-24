@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools   = "http://schemas.android.com/tools"
+    android:id="@+id/LLPadre"
+    android:layout_width  ="match_parent"
+    android:layout_height = "match_parent"
+    android:orientation = "vertical"
+    android:theme = "@style/Theme.AppCompat.NoActionBar"
+    android:background="@drawable/fondolibreta"
+    tools:context = ".ui.fragments.Preguntas_fragment">
+
+    <!--########################### Pregunta ###########################-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.30">
+        <TextView
+            android:id="@+id/txtPregunta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/quicksand_light"
+            android:paddingHorizontal="15dp"
+            android:text="Espere un momento..."
+            android:textColor="@color/black"
+            android:textSize="@dimen/FPreguntaTextView"
+            android:textStyle="bold"
+            android:textAlignment="center">
+        </TextView>
+    </RelativeLayout>
+
+    <!--########################### Opciones ###########################-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".40">
+        <RelativeLayout
+            android:id="@+id/RlPadreOpciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35sp"
+            android:visibility="gone"
+            android:layout_centerVertical="true">
+
+            <!--######## Opcion 1 ########-->
+            <RelativeLayout
+                android:id="@+id/RL1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/opciones">
+                <TextView
+                    android:id="@+id/txtOpcion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margenVerticalTextoOpciones"
+                    android:fontFamily="@font/quicksand_light"
+                    android:text="Opcion1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/FPreguntaTextViewOpciones"
+                    android:textStyle="bold"
+                    android:textAlignment="center">
+                </TextView>
+            </RelativeLayout>
+
+            <!--######## Opcion 2 ########-->
+            <RelativeLayout
+                android:id="@+id/RL2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/RL1"
+                android:background="@drawable/opciones"
+                android:layout_marginTop="@dimen/marginTopRLOpciones">
+                <TextView
+                    android:id="@+id/txtOpcion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margenVerticalTextoOpciones"
+                    android:fontFamily="@font/quicksand_light"
+                    android:text="Opcion2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/FPreguntaTextViewOpciones"
+                    android:textStyle="bold"
+                    android:textAlignment="center">
+                </TextView>
+            </RelativeLayout>
+
+            <!--######## Opcion 3 ########-->
+            <RelativeLayout
+                android:id="@+id/RL3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL2"
+                android:background="@drawable/opciones"
+                android:layout_marginTop="@dimen/marginTopRLOpciones"
+                >
+                <TextView
+                    android:id="@+id/txtOpcion3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margenVerticalTextoOpciones"
+                    android:fontFamily="@font/quicksand_light"
+                    android:text="Opcion3"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/FPreguntaTextViewOpciones"
+                    android:textStyle="bold"
+                    android:textAlignment="center">
+                </TextView>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!--########################### Respuesta ###########################-->
+    <RelativeLayout
+        android:id="@+id/RLtxtRespuesta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.30">
+        <TextView
+            android:id="@+id/txtRespuesta"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingHorizontal="15dp"
+            android:fontFamily="@font/quicksand_light"
+            android:text="Respuesta"
+            android:textColor="@color/black"
+            android:textSize="@dimen/FPreguntaTextViewRespuesta"
+            android:textStyle="bold"
+            android:textAlignment="center">
+        </TextView>
+    </RelativeLayout>
+
+</LinearLayout>

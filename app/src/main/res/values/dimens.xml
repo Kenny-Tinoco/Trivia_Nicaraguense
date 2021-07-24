@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TTextoButton"                >20sp</dimen><!--Tamaño texto-->
+    <dimen name="TTextoTextView"              >24sp</dimen>
+    <dimen name="FPreguntaTextView"           >22sp</dimen>
+    <dimen name="FPreguntaTextViewOpciones"   >19sp</dimen>
+    <dimen name="FPreguntaTextViewRespuesta"  >19sp</dimen>
+    <dimen name="margenHorizontalOpciones"    >50dp</dimen>
+    <dimen name="margenVerticalTextoOpciones" >12dp</dimen>
+    <dimen name="marginTopRLOpciones"         > 3dp</dimen>
+    <dimen name="TimageViewScrolling">220dp</dimen>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fg_Bienvenida">
+
+    <fragment
+        android:id="@+id/fg_Categorias"
+        android:name="com.example.trivianica.ui.fragments.Categorias_fragment"
+        android:label="Categorias"
+        tools:layout="@layout/fragment_categorias" >
+        <action
+            android:id="@+id/action_Categorias_to_Preguntas"
+            app:destination="@id/fg_Preguntas" />
+    </fragment>
+    <fragment
+        android:id="@+id/fg_Bienvenida"
+        android:name="com.example.trivianica.ui.fragments.Bienvenida_fragment"
+        android:label="Bienvenida"
+        tools:layout="@layout/fragment_bienvenida" >
+        <action
+            android:id="@+id/action_Jugadores_to_Categorias"
+            app:destination="@id/fg_Categorias" />
+    </fragment>
+    <fragment
+        android:id="@+id/fg_Preguntas"
+        android:name="com.example.trivianica.ui.fragments.Preguntas_fragment"
+        android:label="Preguntas"
+        tools:layout="@layout/fragment_preguntas" >
+        <action
+            android:id="@+id/action_Preguntas_to_Puntuacion"
+            app:destination="@id/fg_Puntuacion" />
+        <action
+            android:id="@+id/action_Preguntas_to_Categorias"
+            app:destination="@id/fg_Categorias" />
+    </fragment>
+    <fragment
+        android:id="@+id/fg_Puntuacion"
+        android:name="com.example.trivianica.ui.fragments.Puntuacion_fragment"
+        android:label="Puntuacion"
+        tools:layout="@layout/fragment_puntuacion" >
+        <action
+            android:id="@+id/action_Puntuacion_to_Jugadores"
+            app:destination="@id/fg_Bienvenida" />
+    </fragment>
+</navigation>

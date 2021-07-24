@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "102523381032",
+    "project_id": "trivia-nica-d549f",
+    "storage_bucket": "trivia-nica-d549f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102523381032:android:40e2e9d61bd55aa5bbdc1d",
+        "android_client_info": {
+          "package_name": "com.example.trivianica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102523381032-q48vphtvm3m5813hh36qn9nc56tjq4ib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trivianica",
+            "certificate_hash": "442f66f5a17b2e1f16126d7864ad27d723cca65e"
+          }
+        },
+        {
+          "client_id": "102523381032-ufq1da4lkq2b0rls1mqqosofosqbpc2f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ7qyq0fQYEoGlt0Otiv2JaLuzQpuD8Is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102523381032-ufq1da4lkq2b0rls1mqqosofosqbpc2f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
