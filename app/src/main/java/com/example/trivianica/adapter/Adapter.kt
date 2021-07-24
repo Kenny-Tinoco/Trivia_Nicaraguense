@@ -29,7 +29,7 @@ class Adapter(private val listener: CategoriaListener)
     }
     private fun asignarDatos(datos: DatosPreguntas, objeto: objetoPregunta)
     {
-        comprobarCamposVacios(objeto, datos);
+        comprobarCamposVacios(objeto, datos)
 
         datos.rlPrincipal.visibility = View.VISIBLE
 

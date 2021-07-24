@@ -2,30 +2,30 @@ package com.example.trivianica.model.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.trivianica.model.objectoPregunta
+import com.example.trivianica.model.objetoPregunta
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Repositorio
 {
-    fun obtenerCategoria(nombreCategoria: String): LiveData<MutableList<objectoPregunta>>
+    fun obtenerCategoria(nombreCategoria: String): LiveData<MutableList<objetoPregunta>>
     {
-        val Lista = MutableLiveData<MutableList<objectoPregunta>>()
+        val lista = MutableLiveData<MutableList<objetoPregunta>>()
 
         FirebaseFirestore.getInstance().collection(nombreCategoria)
                 .get()
                 .addOnSuccessListener { coleccionCategoria ->
 
-                    val listData = mutableListOf<objectoPregunta>()
+                    val listData = mutableListOf<objetoPregunta>()
 
                     for(documento in coleccionCategoria)
                     {
-                        var objecto = documento.toObject(objectoPregunta::class.java)
-                        listData.add(objecto)
+                        val objeto = documento.toObject(objetoPregunta::class.java)
+                        listData.add(objeto)
                     }
 
-                    Lista.value = listData
+                    lista.value = listData
                 }
 
-        return Lista;
+        return lista
     }
 }

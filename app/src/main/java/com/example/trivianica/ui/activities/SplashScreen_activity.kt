@@ -3,37 +3,30 @@ package com.example.trivianica.ui.activities
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import com.example.trivianica.R
-import com.example.trivianica.model.objectoPregunta
-import com.google.firebase.firestore.FirebaseFirestore
-import org.json.JSONArray
-import org.json.JSONObject
 
 class SplashScreen_activity : AppCompatActivity()
 {
-    private val tiempo: Int = 4000
-    lateinit var Audio: MediaPlayer
+    private val duration: Long = 4000
+    private lateinit var audio: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN)
         setContentView(R.layout.activity_splashscreen)
 
-        Audio = MediaPlayer.create(this, R.raw.audio_bienvenida)
-        Audio.start()
+        audio = MediaPlayer.create(this, R.raw.audio_bienvenida)
+        audio.start()
 
-        Handler(Looper.getMainLooper()).postDelayed(object : Runnable
-        {
-            override fun run()
-            {
-                val intent = Intent(this@SplashScreen_activity, MenuPrincipal_activity::class.java)
-                startActivity(intent);
-                finish()
-            }
-        }, tiempo.toLong())
+        Handler( Looper.getMainLooper() )
+            .postDelayed(
+                {
+                    val intent = Intent(this, MenuPrincipal_activity::class.java)
+                    startActivity(intent)
+                    finish()
+                },
+                duration)
     }
 }

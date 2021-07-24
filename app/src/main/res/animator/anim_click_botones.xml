@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-
-</set>
+<objectAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="300"
+    android:repeatCount="1"
+    android:repeatMode="reverse">
+    <propertyValuesHolder
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="1f"
+        android:valueTo="1.3f">
+    </propertyValuesHolder>
+    <propertyValuesHolder
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="1f"
+        android:valueTo="1.3f">
+    </propertyValuesHolder>
+</objectAnimator>

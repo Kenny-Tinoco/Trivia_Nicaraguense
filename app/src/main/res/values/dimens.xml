@@ -5,8 +5,8 @@
     <dimen name="FPreguntaTextView"           >22sp</dimen>
     <dimen name="FPreguntaTextViewOpciones"   >19sp</dimen>
     <dimen name="FPreguntaTextViewRespuesta"  >19sp</dimen>
-    <dimen name="margenHorizontalOpciones"    >50dp</dimen>
+    <dimen name="margenHorizontalOpciones"    >40dp</dimen>
     <dimen name="margenVerticalTextoOpciones" >12dp</dimen>
-    <dimen name="marginTopRLOpciones"         > 3dp</dimen>
+    <dimen name="marginTopRLOpciones"         > 5dp</dimen>
     <dimen name="TimageViewScrolling">220dp</dimen>
 </resources>
