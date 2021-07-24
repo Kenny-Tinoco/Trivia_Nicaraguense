@@ -1,7 +1,10 @@
 package com.example.trivianica.ui.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,45 +16,48 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.trivianica.model.claseRecurso.cR
 import com.example.trivianica.R
+import com.example.trivianica.model.claseRecurso.RegistroDispositivo
+import com.example.trivianica.model.claseRecurso.cR.Valores.puntaje
 
 
 class Puntuacion_fragment : Fragment()
 {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    @SuppressLint("SetTextI18n")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
-        for(i in (0..5))
-            cR.guardarListasRegistro(i, cR.obtenerNombreRegistroCategoria(i))
+        for(categoriaId in (0..5))
+        {
+            val nombreCategoria = cR.getNombreDeRegistro(categoriaId)
+            RegistroDispositivo.setRegistroEnDispositivo(nombreCategoria, categoriaId)
+        }
 
-        /*Obtiene el View actual.*/
-        val Vista: View = inflater.inflate(R.layout.fragment_puntuacion, container, false);
+        /*Obtiene el View principal en el Fragmento*/
+        val view = inflater.inflate(R.layout.fragment_puntuacion, container, false)
 
         /*Audio que reacciona en función del puntaje de la partida*/
-        audioReaccionResultadoPartdida(Vista)
+        audioReaccionPartida(view)
 
         /*Presenta su puntaje al usuario.*/
-        Vista.findViewById<TextView>(R.id.textoPuntuacion).text = "${cR.puntaje}/5"
+        view.findViewById<TextView>(R.id.textoPuntuacion).text = "$puntaje/5"
 
-        var audioReaccion: MediaPlayer
-
-        audioReaccion = MediaPlayer.create(context, recursoReaccion())
+        val audioReaccion = MediaPlayer.create(context, recursoReaccion())
 
         audioReaccion.start()
         audioReaccion.setOnCompletionListener{
-            if(cR.puntaje == 5)
-                mostrarBotones(Vista)
+            if(puntaje == 5)
+                mostrarBotones(view)
             else
             {
-                var audioReaccionSG: MediaPlayer
-                audioReaccionSG = MediaPlayer.create(context, R.raw.audio_puedes_seguir_jugando)
+                val audioReaccionSG = MediaPlayer.create(context, R.raw.audio_puedes_seguir_jugando)
                 Thread.sleep(70)
                 audioReaccionSG.start()
-                audioReaccionSG.setOnCompletionListener{mostrarBotones(Vista)}
+                audioReaccionSG.setOnCompletionListener{mostrarBotones(view)}
             }
         }
 
-        return Vista;
+        return view
     }
-    fun mostrarBotones(Vista: View)
+    private fun mostrarBotones(Vista: View)
     {
         Thread.sleep(50)
         Vista.findViewById<RelativeLayout>(R.id.BotonesElecciones).visibility = View.VISIBLE
@@ -59,29 +65,60 @@ class Puntuacion_fragment : Fragment()
     }
 
     /*Acciona los eventos de los botones*/
-    fun eleccionClickListener(Vista: View)
+    private fun eleccionClickListener(Vista: View)
     {
-        cR.acumulador = 0;
+        cR.acumulador = 0
         cR.opcionCorrecta = true
-        cR.puntaje = 0;
+        puntaje = 0
+
+        val botonSeguir = Vista.findViewById<Button>(R.id.Seguir)
+        val botonSalir = Vista.findViewById<Button>(R.id.Salir)
 
         /*Evento del Botón Seguir*/
-        Vista.findViewById<Button>(R.id.Seguir).setOnClickListener{
-            Vista.findViewById<Button>(R.id.Salir).isEnabled = false
-            findNavController().navigate(R.id.action_Puntuacion_to_Jugadores)
+        botonSeguir.setOnClickListener{
+            botonSalir.isEnabled = false
+            val animacion = agrandarBoton(botonSeguir)
+            animacion.start()
+            animacion.addListener(object:
+                AnimatorListenerAdapter()
+            {
+                override fun onAnimationEnd(animation: Animator?)
+                {
+                    super.onAnimationEnd(animation)
+                    findNavController().navigate(R.id.action_Puntuacion_to_Jugadores)
+                }
+            })
         }
 
-        /*Evento del Boton Salir*/
-        Vista.findViewById<Button>(R.id.Salir).setOnClickListener{
-            Vista.findViewById<Button>(R.id.Seguir).isEnabled = false
-
-            /*Cierra la aplicación de raíz y quita la tarea del telefono.*/
-            activity?.finishAndRemoveTask()
+        /*Evento del Botón Salir*/
+        botonSalir.setOnClickListener{
+            botonSeguir.isEnabled = false
+            val animacion = agrandarBoton(botonSalir)
+            animacion.start()
+            animacion.addListener(object:
+                AnimatorListenerAdapter()
+            {
+                override fun onAnimationEnd(animation: Animator?)
+                {
+                    super.onAnimationEnd(animation)
+                    /*Cierra la aplicación de raíz y quita la tarea del teléfono.*/
+                    activity?.finishAndRemoveTask()
+                }
+            })
         }
     }
-    fun audioReaccionResultadoPartdida(Vista: View)
+    private fun agrandarBoton(boton: Button): Animator
     {
-        var media: MediaPlayer
+        val animacion = AnimatorInflater.loadAnimator(context, R.animator.anim_click_botones)
+        animacion
+            .apply {
+                setTarget(boton)
+            }
+        return animacion
+    }
+    private fun audioReaccionPartida(Vista: View)
+    {
+        val media: MediaPlayer
         if(resultadoPartida())
         {
             media = MediaPlayer.create(context, R.raw.audio_partida_ganada)
@@ -89,33 +126,29 @@ class Puntuacion_fragment : Fragment()
         else
         {
             media = MediaPlayer.create(context, R.raw.audio_partida_perdida)
-            /*Ocultamiento de animación de confetti*/
+            /*Se oculta la animación de confetti*/
             Vista.findViewById<View>(R.id.animacionPuntuacion).visibility = View.GONE
         }
 
         media.start()
         //Thread.sleep(200)
     }
-    /*Retorna verdadero si el puntaje es mayor a o igual a 4 y falso en caso contrario*/
-    fun resultadoPartida(): Boolean
-    {
-        var uri: Uri
 
-        var resultado:Boolean = false
-        if(cR.puntaje > 3)  resultado = true
+    private fun resultadoPartida(): Boolean
+    {
+        var resultado = false
+        if(puntaje >= 4)
+            resultado = true
         return resultado
     }
-    fun recursoReaccion(): Int
+    private fun recursoReaccion(): Int
     {
-        var recurso: Int
-        if(cR.puntaje == 5)
-            recurso = R.raw.audio_puntuacion_perfecta
-        else if(cR.puntaje == 4)
-            recurso = R.raw.audio_puntuacion_de_cuatro
-        else if(cR.puntaje == 0)
-            recurso = R.raw.audio_puntuacion_cero
-        else
-            recurso = R.raw.audio_puntuacion_baja
-        return recurso
+        return when (puntaje)
+        {
+            0 -> R.raw.audio_puntuacion_cero
+            4 -> R.raw.audio_puntuacion_de_cuatro
+            5 -> R.raw.audio_puntuacion_perfecta
+            else -> R.raw.audio_puntuacion_baja
+        }
     }
 }

@@ -1,11 +1,10 @@
 package com.example.trivianica.ui.fragments
 
-import android.animation.Animator
+import android.animation.*
 import android.animation.Animator.AnimatorListener
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -16,6 +15,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
 import androidx.core.animation.addListener
 import androidx.navigation.fragment.findNavController
@@ -25,52 +25,43 @@ import com.example.trivianica.ui.activities.MenuPrincipal_activity
 
 class Bienvenida_fragment : Fragment(), View.OnClickListener
 {
-    var Vista: View? = null
-    var BotonComenzar: Button? = null
+    var viewBienvenida: View? = null
+    var botonComenzar: Button? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        Vista = inflater.inflate(R.layout.fragment_bienvenida, container, false);
+        viewBienvenida = inflater.inflate(R.layout.fragment_bienvenida, container, false)
 
         if(cR.acumulador == 0)
             cR.generarlistaAleatoria()
 
-        BotonComenzar = Vista!!.findViewById<Button>(R.id.BotonComenzar)
+        botonComenzar = viewBienvenida!!.findViewById(R.id.BotonComenzar)
+        botonComenzar!!.setOnClickListener(this)
 
-        BotonComenzar!!.setOnClickListener(this)
-
-        return Vista
+        return viewBienvenida
     }
 
     override fun onClick(v: View?)
     {
-        var animColor = ObjectAnimator
-            .ofArgb(
-                BotonComenzar,
-                "backgroundColor",
-                Color.parseColor("#99CB38"),
-                Color.YELLOW,
-                Color.parseColor("#FFA500"),
-                Color.RED,
-                Color.parseColor("#FFC0CB"),
-                Color.parseColor("#EE82EE"),
-                Color.BLUE,
-                Color.CYAN,
-                Color.parseColor("#99CB38")
-            )
-            .apply{
-                duration = 1000
-                start()
-            }
+        animacionBoton()
+    }//Fin de la función onClick
+    private fun animacionBoton()
+    {
+        val animacion = AnimatorInflater.loadAnimator(context, R.animator.anim_click_botones)
+        animacion.
+        apply{
+            setTarget(botonComenzar)
+            start()
+        }
 
-        animColor.addListener(
-            object: AnimatorListenerAdapter()
+        animacion.addListener(object:
+        AnimatorListenerAdapter()
+        {
+            override fun onAnimationEnd(animation: Animator?)
             {
-                override fun onAnimationEnd(animation: Animator?)
-                {
-                    super.onAnimationEnd(animation)
-                    findNavController().navigate(R.id.action_Jugadores_to_Categorias)
-                }
-            })
-    }//Fin de la función
-}
+                super.onAnimationEnd(animation)
+                findNavController().navigate(R.id.action_Jugadores_to_Categorias)
+            }
+        })
+    }
+}//Fin de fragmento

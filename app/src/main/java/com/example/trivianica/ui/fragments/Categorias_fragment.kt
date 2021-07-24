@@ -3,6 +3,8 @@ package com.example.trivianica.ui.fragments
 import android.app.ActionBar
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -45,7 +47,7 @@ class Categorias_fragment : Fragment(), animEventoFinalizar
 
         return Vista;
     }
-    fun iniciarAnimacion(Vista: View, Titulo: TextView, validador: Boolean)
+    private fun iniciarAnimacion(Vista: View, Titulo: TextView, validador: Boolean)
     {
         /*Inicio de la animacion de tombola*/
         Imagen!!.setAnimacion(cR.categoriaId,11, Vista, Titulo, validador)
@@ -57,7 +59,10 @@ class Categorias_fragment : Fragment(), animEventoFinalizar
     {
         if(validadorNavegación)
         {
-            NavHostFragment.findNavController(this).navigate(R.id.fg_Preguntas)
+            Handler(Looper.getMainLooper())
+                .postDelayed(
+                    { NavHostFragment.findNavController(this).navigate(R.id.fg_Preguntas) },
+                    2000)
         }
     }
 

@@ -97,16 +97,16 @@ public class ImageViewScrolling extends FrameLayout
     }
 
     private void setTitulo(TextView Titulo, int categoriaId)
-    {Titulo.setText(cR.Valores.obtenerNombreCategoria(categoriaId));}
+    {Titulo.setText(cR.Valores.getNombreCategoria(categoriaId));}
 
     private void setImagen(ImageView Imagen, int categoriaId)
     {
-             if(categoriaId == cR.Valores.getCERO()  ) Imagen.setImageResource(R.drawable.ic_arte        );
-        else if(categoriaId == cR.Valores.getUNO()   ) Imagen.setImageResource(R.drawable.ic_deportes    );
-        else if(categoriaId == cR.Valores.getDOS()   ) Imagen.setImageResource(R.drawable.ic_gastronomia );
-        else if(categoriaId == cR.Valores.getTRES()  ) Imagen.setImageResource(R.drawable.ic_geografia   );
-        else if(categoriaId == cR.Valores.getCUATRO()) Imagen.setImageResource(R.drawable.ic_historia    );
-        else if(categoriaId == cR.Valores.getCINCO() ) Imagen.setImageResource(R.drawable.ic_tradicion   );
+             if(categoriaId == cR.Valores.getARTE()       ) Imagen.setImageResource(R.drawable.ic_arte        );
+        else if(categoriaId == cR.Valores.getDEPORTE()    ) Imagen.setImageResource(R.drawable.ic_deportes    );
+        else if(categoriaId == cR.Valores.getGASTRONOMIA()) Imagen.setImageResource(R.drawable.ic_gastronomia );
+        else if(categoriaId == cR.Valores.getGEOGRAFIA()  ) Imagen.setImageResource(R.drawable.ic_geografia   );
+        else if(categoriaId == cR.Valores.getHISTORIA()   ) Imagen.setImageResource(R.drawable.ic_historia    );
+        else if(categoriaId == cR.Valores.getTRADICION()  ) Imagen.setImageResource(R.drawable.ic_tradicion   );
 
         Imagen.setTag(categoriaId);
     }

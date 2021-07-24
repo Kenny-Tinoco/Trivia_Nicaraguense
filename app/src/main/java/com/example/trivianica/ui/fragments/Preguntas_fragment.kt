@@ -1,7 +1,9 @@
 package com.example.trivianica.ui.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -13,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.example.trivianica.model.claseRecurso.cR
@@ -22,87 +23,144 @@ import com.example.trivianica.ViewModel.CategoriaViewModel
 import com.example.trivianica.adapter.Adapter
 import com.example.trivianica.adapter.CategoriaListener
 import com.example.trivianica.databinding.FragmentPreguntasBinding
+import com.example.trivianica.model.claseRecurso.RegistroDispositivo
+import com.example.trivianica.model.objetoPregunta
 
 class Preguntas_fragment : Fragment(), CategoriaListener
 {
-    private val ViewModel by lazy {ViewModelProviders.of(this).get(CategoriaViewModel::class.java)}
+    private var viewPreguntas: View? = null
+    private val adapter by lazy {Adapter(this)}
+    private val viewModel by lazy {ViewModelProviders.of(this).get(CategoriaViewModel::class.java)}
 
-    var Vista: View? = null
+    private var mediaPlayer : MediaPlayer? = null
 
-    @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        Thread.sleep(5000)
-        Vista = FragmentPreguntasBinding.inflate(layoutInflater).root
-
-        val Adapter = Adapter(this)
+        viewPreguntas = FragmentPreguntasBinding.inflate(layoutInflater).root
 
         if(cR.validador)
         {
             cR.validador = false
-            observadorObtenerLista(Vista as LinearLayout, Adapter)
+            observadorObtenerLista()
         }
         else
-            Adapter.MostarDatos(Vista as LinearLayout,cR.respaldoPregunta)
+            adapter.mostarDatos(viewPreguntas as LinearLayout,cR.respaldoPregunta)
 
-        return Vista;
+        return viewPreguntas
     }
 
     @SuppressLint("FragmentLiveDataObserve")
-    private fun observadorObtenerLista(Vista: View, Adapter: Adapter)
+    private fun observadorObtenerLista()
     {
-        var nombreCategoria = cR.obtenerNombreCategoria(cR.categoriaId)
+        val nombreCategoria = cR.getNombreCategoria(cR.categoriaId)
 
-        ViewModel.obtenerCategoria(nombreCategoria).observe(this, Observer{ resultado ->
-            cR.insertarTamañoListaRegistro(resultado.size)
-            var indice: Int
-            indice = cR.obtenerPreguntaAleatoria()
-            cR.respaldoPregunta = resultado[indice]
-            Adapter.MostarDatos(Vista,resultado[indice])
-        })
+        viewModel
+            .obtenerCategoria(nombreCategoria)
+            .observe(
+                this, { listaPreguntas -> mostrarPregunta(listaPreguntas)}
+                    )
     }
-    override fun onOpcionClicked(OpcionMarcada: Int, RespuestaCorrecta: Int, Contenedor: RelativeLayout, Respuesta: TextView)
-    {
-        var media:  MediaPlayer
 
+    private fun mostrarPregunta(listaPreguntas: MutableList<objetoPregunta>)
+    {
+        RegistroDispositivo.inicializarRegistros(listaPreguntas.size, cR.categoriaId)
+
+        /* pregunta aleatoria que no ha parecido antes */
+        val indice = preguntaAleatoria()
+
+        cR.respaldoPregunta = listaPreguntas[indice]
+        adapter.mostarDatos(viewPreguntas as LinearLayout, listaPreguntas[indice])
+    }
+
+    override fun onOpcionClicked(opcionMarcada: Int, opcionCorrecta: Int)
+    {
+        cR.acumulador++
         cR.validador = true
         cR.opcionCorrecta = true
 
-        if(OpcionMarcada == RespuestaCorrecta)
+        if(opcionMarcada == opcionCorrecta)
         {
-            cR.puntaje++
-            Contenedor.setBackgroundResource(R.drawable.opciones_correcta)
-            media = MediaPlayer.create(getContext(), R.raw.audio_opcion_correcta);
-            media.start();
+            opcionCorrectaMarcada(opcionCorrecta)
         }
         else
         {
-            Respuesta.visibility = View.VISIBLE
-            Contenedor.setBackgroundResource(R.drawable.opciones_erronea)
-
-            var recursoAudio = R.id.RL1
-            if(RespuestaCorrecta == 2) recursoAudio = R.id.RL2
-            if(RespuestaCorrecta == 3) recursoAudio = R.id.RL3
-
-            Vista!!.findViewById<RelativeLayout>(recursoAudio).setBackgroundResource(R.drawable.opciones_erronea_complemento)
-
-            media = MediaPlayer.create(getContext(), R.raw.audio_opcion_incorrecta);
-            media.start();
-            media.setOnCompletionListener{
-                Vista!!.findViewById<TextView>(R.id.txtRespuesta).visibility = View.VISIBLE
-            }
-            cR.opcionCorrecta = false
+            opcionIncorrectaMarcada(opcionMarcada, opcionCorrecta)
         }
-        cR.acumulador++
 
-        Handler(Looper.getMainLooper()).postDelayed(object : Runnable
-        {
-            override fun run()
-            {navegacionTombolaPuntuacion()}
-        }, cR.tiempoEspera())
+        /* 'mediaPlayer' inicializada dentro de las funciones */
+        mediaPlayer!!.start()
+
+        Handler(Looper.getMainLooper())
+            .postDelayed({ navegacion_A_Tombola_o_Puntuacion() }, cR.tiempoEspera())
     }
 
-    fun navegacionTombolaPuntuacion()
+    private fun opcionIncorrectaMarcada(opcionMarcada: Int, opcionCorrecta: Int)
+    {
+        cR.opcionCorrecta = false
+
+        val contenedorMarcado  = contenedorOpcion(opcionMarcada)
+        val contenedorCorrecto = contenedorOpcion(opcionCorrecta)
+
+        val animacion = agrandarContenedorIncorrecto(contenedorMarcado)
+        animacion.start()
+
+        contenedorMarcado.setBackgroundResource( R.drawable.opciones_erronea)
+        animacion.addListener(object : AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                super.onAnimationEnd(animation)
+                contenedorCorrecto.setBackgroundResource(R.drawable.opciones_erronea_complemento)
+            }
+        })
+
+        mediaPlayer = MediaPlayer.create(context, R.raw.audio_opcion_incorrecta)
+
+        Handler(Looper.getMainLooper())
+            .postDelayed({viewPreguntas!!.findViewById<TextView>(R.id.txtRespuesta).visibility = View.VISIBLE},600)
+    }
+
+    private fun agrandarContenedorIncorrecto(contenedorOpcionMarcada: RelativeLayout): Animator
+    {
+        val animacion = AnimatorInflater.loadAnimator(context, R.animator.anim_click_opciones__opcioncorrecta)
+        animacion
+            .apply{
+                setTarget(contenedorOpcionMarcada)
+            }
+        return animacion
+    }
+
+    private fun opcionCorrectaMarcada(opcionCorrecta: Int)
+    {
+        cR.puntaje++
+        val contenedorOpcionCorrecta = contenedorOpcion(opcionCorrecta)
+        animacionOpcionCorrecta(contenedorOpcionCorrecta)
+        contenedorOpcionCorrecta.setBackgroundResource(R.drawable.opciones_correcta)
+        mediaPlayer = MediaPlayer.create(context, R.raw.audio_opcion_correcta)
+    }
+
+    private fun animacionOpcionCorrecta(contenedorOpcionCorrecta: RelativeLayout)
+    {
+        val animacion = AnimatorInflater.loadAnimator(context, R.animator.anim_click_opciones__opcioncorrecta)
+
+        animacion
+            .apply {
+                setTarget(contenedorOpcionCorrecta)
+                start()
+            }
+    }
+
+    private fun contenedorOpcion(opcionMarcada: Int): RelativeLayout
+    {
+        val nombreContenedor: Int =
+        when (opcionMarcada)
+        {
+            1    -> R.id.RL1
+            2    -> R.id.RL2
+            else -> R.id.RL3
+        }
+        return viewPreguntas!!.findViewById(nombreContenedor)
+    }
+
+    private fun navegacion_A_Tombola_o_Puntuacion()
     {
         /*Si el acumulador es menor a 5, se navega a la tombola*/
         if( cR.acumulador < 5 )
@@ -112,9 +170,20 @@ class Preguntas_fragment : Fragment(), CategoriaListener
         }
         else/*Sino, al puntaje*/
         {
-            cR.acumulador = 0;
+            cR.acumulador = 0
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_Preguntas_to_Puntuacion)
         }
+    }
+
+    private fun preguntaAleatoria(): Int
+    {
+        val preguntasHechas = RegistroDispositivo.getPreguntasRealizadas(cR.categoriaId)
+        val preguntaId: Int = RegistroDispositivo.getIdPreguntaAleatoria(preguntasHechas)
+
+        RegistroDispositivo.guardarDatoEnListaPreguntasRealizadas(preguntaId, preguntasHechas)
+        RegistroDispositivo.updatePreguntasRealizadas(cR.categoriaId, preguntasHechas)
+
+        return preguntaId
     }
 }
