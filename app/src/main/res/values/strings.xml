@@ -2,4 +2,14 @@
     <string name="app_name">Trivia Nica</string>
     <string name="PJ_Mensaje">Prueba tus conocimientos sobre Nicaragua</string>
     <string name="PJ_btn">Jugar</string>
+    <string name="txtPuntuacionMensaje">Tu puntación es</string>
+    <string name="txtBotonSalir">Salir</string>
+    <string name="txtBotonSeguir">Seguir</string>
+    <string name="txtTextoEspera">Espere un momento...</string>
+    <string name="txtOpcion2">Opcion2</string>
+    <string name="txtOpcion1">Opcion1</string>
+    <string name="txtOpcion3">Opcion3</string>
+    <string name="txtRespuesta">Respuesta</string>
+    <string name="txtFraseBienvenida">Triva Nica</string>
+    <string name="txtTitulo">Trivia Nica</string>
 </resources>

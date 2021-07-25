@@ -9,4 +9,5 @@
     <dimen name="margenVerticalTextoOpciones" >12dp</dimen>
     <dimen name="marginTopRLOpciones"         > 5dp</dimen>
     <dimen name="TimageViewScrolling">220dp</dimen>
+    <dimen name="margenBotonesPuntuacion">60dp</dimen>
 </resources>

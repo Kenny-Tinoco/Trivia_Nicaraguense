@@ -17,16 +17,14 @@ public class ImageViewScrolling extends FrameLayout
     int ANIMACION_DUR = 150;
     int valorAnterior   = 0;
 
-
-    boolean validadorAuxiliar = false;
     public static int fotogramaGuardado = -1;
 
     ImageView ImagenActual;
     ImageView ImagenProxima;
     TextView  Titulo;
-    animEventoFinalizar eventEnd;
+    InterfazEventoTerminado eventEnd;
 
-    public void setEventEnd(animEventoFinalizar eventEnd)
+    public void setEventEnd(InterfazEventoTerminado eventEnd)
     {this.eventEnd = eventEnd;}
 
     public ImageViewScrolling(Context context)
@@ -51,7 +49,7 @@ public class ImageViewScrolling extends FrameLayout
 
         ImagenActual.setTranslationY(getHeight());
     }
-    public void setAnimacion(int imagen, int GirosConteo, View Vista, TextView Titulo, boolean validador)
+    public void setAnimacion(int imagen, int GirosConteo, TextView Titulo, boolean validador)
     {
         if(validador)
         {
@@ -76,7 +74,7 @@ public class ImageViewScrolling extends FrameLayout
                         {
                             valorAnterior++;
                             fotogramaGuardado = valorAnterior;
-                            setAnimacion(imagen, GirosConteo, Vista, Titulo, false);
+                            setAnimacion(imagen, GirosConteo, Titulo, false);
                         }
                         else
                         {
@@ -84,7 +82,7 @@ public class ImageViewScrolling extends FrameLayout
                             setImagen(ImagenActual, imagen);
                             setTitulo(Titulo, imagen);
                             fotogramaGuardado = -1;
-                            eventEnd.eventEnd(imagen, Vista);
+                            eventEnd.eventEnd();
                         }
                     }
                     @Override

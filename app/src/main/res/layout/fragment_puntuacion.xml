@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.Puntuacion_fragment">
+    tools:context=".ui.fragments.Puntuacion_fragment"
+    android:background="@drawable/defuminado">
 
-    <RelativeLayout
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animacionPuntuacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/defuminado">
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/confetti"
+        tools:ignore="MissingConstraints">
+    </com.airbnb.lottie.LottieAnimationView>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animacionPuntuacion"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/confetti"
-            tools:ignore="MissingConstraints">
-        </com.airbnb.lottie.LottieAnimationView>
+    <TextView
+        android:id="@+id/Txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:fontFamily="@font/quicksand_light"
+        android:textStyle="bold"
+        android:text="@string/txtPuntuacionMensaje"
+        android:textColor="@color/black"
+        android:textSize="30sp">
+    </TextView>
 
-        <TextView
-            android:id="@+id/Txt1"
+    <TextView
+        android:id="@+id/textoPuntuacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Txt1"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:fontFamily="@font/quicksand_light"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30sp">
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/contenedorBotones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textoPuntuacion"
+        android:layout_marginTop="100dp"
+        android:paddingVertical="20dp"
+        android:alpha="0">
+
+        <Button
+            android:id="@+id/botonSalir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margenBotonesPuntuacion"
             android:fontFamily="@font/quicksand_light"
-            android:textStyle="bold"
-            android:text="Tu puntación es"
-            android:textColor="@color/black"
-            android:textSize="30sp">
-        </TextView>
+            android:text="@string/txtBotonSalir"
+            android:textSize="@dimen/TTextoButton"
+            android:textStyle="bold">
+        </Button>
 
-        <TextView
-            android:id="@+id/textoPuntuacion"
+        <Button
+            android:id="@+id/botonSeguir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_below="@+id/Txt1"
-            android:layout_marginTop="10dp"
-            android:text=""
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margenBotonesPuntuacion"
             android:fontFamily="@font/quicksand_light"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="30sp">
-        </TextView>
-
-        <RelativeLayout
-            android:id="@+id/BotonesElecciones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textoPuntuacion"
-            android:layout_marginTop="100dp"
-            android:visibility="invisible"
-            android:layout_centerHorizontal="true">
-
-            <Button
-                android:id="@+id/Salir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_toEndOf="@+id/Seguir"
-                android:textSize="@dimen/TTextoButton"
-                android:fontFamily="@font/quicksand_light"
-                android:textStyle="bold"
-                android:text="Salir">
-            </Button>
-
-            <Button
-                android:id="@+id/Seguir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/quicksand_light"
-                android:textStyle="bold"
-                android:textSize="@dimen/TTextoButton"
-                android:text="Seguir">
-            </Button>
-        </RelativeLayout>
-
+            android:text="@string/txtBotonSeguir"
+            android:textSize="@dimen/TTextoButton"
+            android:textStyle="bold">
+        </Button>
     </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

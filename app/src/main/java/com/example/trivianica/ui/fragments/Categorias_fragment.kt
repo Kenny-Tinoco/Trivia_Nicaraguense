@@ -1,63 +1,61 @@
 package com.example.trivianica.ui.fragments
 
-import android.app.ActionBar
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.navigation.fragment.NavHostFragment
 import com.example.trivianica.model.claseRecurso.cR
-import com.example.trivianica.ui.animacionTombola.animEventoFinalizar
+import com.example.trivianica.ui.animacionTombola.InterfazEventoTerminado
 import com.example.trivianica.ui.animacionTombola.ImageViewScrolling
 import com.example.trivianica.R
-import java.lang.Exception
+import com.example.trivianica.databinding.FragmentCategoriasBinding
+import kotlinx.android.synthetic.main.fragment_categorias.view.*
 
-class Categorias_fragment : Fragment(), animEventoFinalizar
+class Categorias_fragment : Fragment(), InterfazEventoTerminado
 {
-    var Imagen: ImageViewScrolling? = null
-    lateinit var Titulo: TextView
-    lateinit var Vista: View
+    private var imagen: ImageViewScrolling? = null
+    private lateinit var titulo: TextView
 
-    var validadorNavegación = true
-    var media:  MediaPlayer? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    private var banderaNavegacion = true
+    private var media:  MediaPlayer? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         /*Obtiene la vista actual*/
-        Vista = inflater.inflate(R.layout.fragment_categorias, container, false)
+        val viewCategoria = FragmentCategoriasBinding.inflate(layoutInflater).root
 
-        Imagen = Vista.findViewById(R.id.Imagen);
-        Titulo = Vista.findViewById(R.id.Titulo);
+        imagen = viewCategoria.Imagen
+        titulo = viewCategoria.Titulo
 
-        /*Sonido de redobles de tambores*/
-        media = MediaPlayer.create(getContext(), R.raw.redoble_tambores);
-        media!!.start();
+        /*Sónido de redobles de támbores*/
+        media = MediaPlayer.create(context, R.raw.redoble_tambores)
+        media!!.start()
 
         /*Asignar el la categoria a categoriaId*/
-        var indice = cR.acumulador
+        val indice = cR.acumulador
         cR.categoriaId = cR.listaAleatoriaCategoria[indice]
 
-        iniciarAnimacion(Vista, Titulo, false)
+        iniciarAnimacion(titulo, false)
 
-        return Vista;
+        return viewCategoria
     }
-    private fun iniciarAnimacion(Vista: View, Titulo: TextView, validador: Boolean)
+    private fun iniciarAnimacion(titulo: TextView, validador: Boolean)
     {
         /*Inicio de la animacion de tombola*/
-        Imagen!!.setAnimacion(cR.categoriaId,11, Vista, Titulo, validador)
-        Imagen!!.setEventEnd(this)
+        imagen!!.setAnimacion(cR.categoriaId,11, titulo, validador)
+        imagen!!.setEventEnd(this)
     }
 
     /*Cuando la tombola termina, se navega al Fragmento Pregunta*/
-    override fun eventEnd(Categoria: Int, vista: View)
+    override fun eventEnd()
     {
-        if(validadorNavegación)
+        if(banderaNavegacion)
         {
             Handler(Looper.getMainLooper())
                 .postDelayed(
@@ -75,28 +73,26 @@ class Categorias_fragment : Fragment(), animEventoFinalizar
             media!!.release()
             media = null
         }
-        if(Imagen != null)
-            Imagen = null
+        if(imagen != null) imagen = null
     }
 
     override fun onPause()
     {
         super.onPause()
-        if(media != null && media!!.isPlaying)
-            media!!.pause()
-        if(Imagen != null)
-            Imagen = null
+        if(media != null && media!!.isPlaying) media!!.pause()
 
-        validadorNavegación = false
+        if(imagen != null) imagen = null
+
+        banderaNavegacion = false
     }
 
     override fun onResume()
     {
         super.onResume()
-        if(media != null)
-            media!!.start()
-        if(Imagen != null)
-            iniciarAnimacion(Vista, Titulo, true)
-        validadorNavegación = true
+        if(media != null)  media!!.start()
+
+        if(imagen != null) iniciarAnimacion(titulo, true)
+
+        banderaNavegacion = true
     }
 }

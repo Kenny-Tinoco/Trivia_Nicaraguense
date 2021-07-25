@@ -153,9 +153,9 @@ class Preguntas_fragment : Fragment(), CategoriaListener
         val nombreContenedor: Int =
         when (opcionMarcada)
         {
-            1    -> R.id.RL1
-            2    -> R.id.RL2
-            else -> R.id.RL3
+            1    -> R.id.RLOpcion1
+            2    -> R.id.RLOpcion2
+            else -> R.id.RLOpcion3
         }
         return viewPreguntas!!.findViewById(nombreContenedor)
     }

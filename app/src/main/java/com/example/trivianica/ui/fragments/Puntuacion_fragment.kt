@@ -3,6 +3,7 @@ package com.example.trivianica.ui.fragments
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -11,13 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.trivianica.model.claseRecurso.cR
 import com.example.trivianica.R
+import com.example.trivianica.databinding.FragmentPreguntasBinding
+import com.example.trivianica.databinding.FragmentPuntuacionBinding
 import com.example.trivianica.model.claseRecurso.RegistroDispositivo
 import com.example.trivianica.model.claseRecurso.cR.Valores.puntaje
+import kotlinx.android.synthetic.main.fragment_puntuacion.view.*
 
 
 class Puntuacion_fragment : Fragment()
@@ -32,47 +34,60 @@ class Puntuacion_fragment : Fragment()
         }
 
         /*Obtiene el View principal en el Fragmento*/
-        val view = inflater.inflate(R.layout.fragment_puntuacion, container, false)
+        val viewPuntuacion = FragmentPuntuacionBinding.inflate(layoutInflater).root
 
         /*Audio que reacciona en función del puntaje de la partida*/
-        audioReaccionPartida(view)
+        audioReaccionPartida(viewPuntuacion)
 
         /*Presenta su puntaje al usuario.*/
-        view.findViewById<TextView>(R.id.textoPuntuacion).text = "$puntaje/5"
+        viewPuntuacion.textoPuntuacion.text = "$puntaje/5"
 
         val audioReaccion = MediaPlayer.create(context, recursoReaccion())
 
         audioReaccion.start()
-        audioReaccion.setOnCompletionListener{
-            if(puntaje == 5)
-                mostrarBotones(view)
-            else
+        audioReaccion.setOnCompletionListener {
+            if (puntaje == 5){
+                mostrarBotones(viewPuntuacion)
+            }else
             {
                 val audioReaccionSG = MediaPlayer.create(context, R.raw.audio_puedes_seguir_jugando)
                 Thread.sleep(70)
                 audioReaccionSG.start()
-                audioReaccionSG.setOnCompletionListener{mostrarBotones(view)}
+                audioReaccionSG.setOnCompletionListener{mostrarBotones(viewPuntuacion)}
             }
         }
 
-        return view
+        return viewPuntuacion
     }
-    private fun mostrarBotones(Vista: View)
+    private fun mostrarBotones(viewPuntuacion: View)
     {
-        Thread.sleep(50)
-        Vista.findViewById<RelativeLayout>(R.id.BotonesElecciones).visibility = View.VISIBLE
-        eleccionClickListener(Vista)
+        val contenedorBotones = viewPuntuacion.contenedorBotones
+        //Animación de visualización lenta de los botones
+        val animacion = ObjectAnimator.ofFloat(contenedorBotones, View.ALPHA, 0f, 1f)
+            .apply {duration = 550}
+
+        animacion.start()
+
+        animacion.addListener(object :
+            AnimatorListenerAdapter()
+            {
+                override fun onAnimationEnd(animation: Animator?)
+                {
+                    super.onAnimationEnd(animation)
+                    eleccionClickListener(viewPuntuacion)
+                }
+            })
     }
 
     /*Acciona los eventos de los botones*/
-    private fun eleccionClickListener(Vista: View)
+    private fun eleccionClickListener(viewPuntuacion: View)
     {
         cR.acumulador = 0
         cR.opcionCorrecta = true
         puntaje = 0
 
-        val botonSeguir = Vista.findViewById<Button>(R.id.Seguir)
-        val botonSalir = Vista.findViewById<Button>(R.id.Salir)
+        val botonSeguir = viewPuntuacion.botonSeguir
+        val botonSalir  = viewPuntuacion.botonSalir
 
         /*Evento del Botón Seguir*/
         botonSeguir.setOnClickListener{
@@ -80,7 +95,7 @@ class Puntuacion_fragment : Fragment()
             val animacion = agrandarBoton(botonSeguir)
             animacion.start()
             animacion.addListener(object:
-                AnimatorListenerAdapter()
+            AnimatorListenerAdapter()
             {
                 override fun onAnimationEnd(animation: Animator?)
                 {
@@ -96,7 +111,7 @@ class Puntuacion_fragment : Fragment()
             val animacion = agrandarBoton(botonSalir)
             animacion.start()
             animacion.addListener(object:
-                AnimatorListenerAdapter()
+            AnimatorListenerAdapter()
             {
                 override fun onAnimationEnd(animation: Animator?)
                 {
@@ -116,7 +131,7 @@ class Puntuacion_fragment : Fragment()
             }
         return animacion
     }
-    private fun audioReaccionPartida(Vista: View)
+    private fun audioReaccionPartida(viewPuntuacion: View)
     {
         val media: MediaPlayer
         if(resultadoPartida())
@@ -127,9 +142,8 @@ class Puntuacion_fragment : Fragment()
         {
             media = MediaPlayer.create(context, R.raw.audio_partida_perdida)
             /*Se oculta la animación de confetti*/
-            Vista.findViewById<View>(R.id.animacionPuntuacion).visibility = View.GONE
+            viewPuntuacion.animacionPuntuacion.visibility = View.GONE
         }
-
         media.start()
         //Thread.sleep(200)
     }
@@ -145,9 +159,9 @@ class Puntuacion_fragment : Fragment()
     {
         return when (puntaje)
         {
-            0 -> R.raw.audio_puntuacion_cero
-            4 -> R.raw.audio_puntuacion_de_cuatro
-            5 -> R.raw.audio_puntuacion_perfecta
+            0    -> R.raw.audio_puntuacion_cero
+            4    -> R.raw.audio_puntuacion_de_cuatro
+            5    -> R.raw.audio_puntuacion_perfecta
             else -> R.raw.audio_puntuacion_baja
         }
     }

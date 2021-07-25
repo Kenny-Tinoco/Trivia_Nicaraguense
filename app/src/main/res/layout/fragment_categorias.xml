@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
         <FrameLayout
-            android:id="@+id/FragmenLayout"
+            android:id="@+id/FrameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/RL"
@@ -29,11 +29,11 @@
             android:id="@+id/Titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/FragmenLayout"
+            android:layout_below="@+id/FrameLayout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/quicksand_light"
-            android:text="Trivia Nica"
+            android:text="@string/txtTitulo"
             android:textColor="@color/black"
             android:textSize="@dimen/TTextoTextView"
             android:textStyle="bold">

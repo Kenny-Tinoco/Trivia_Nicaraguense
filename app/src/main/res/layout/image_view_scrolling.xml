@@ -9,8 +9,7 @@
     <ImageView
         android:id="@+id/ImagenActual"
         android:layout_width="@dimen/TimageViewScrolling"
-        android:layout_height="@dimen/TimageViewScrolling"
-        >
+        android:layout_height="@dimen/TimageViewScrolling">
     </ImageView>
     <ImageView
         android:id="@+id/ImagenProxima"

@@ -21,21 +21,23 @@ import androidx.core.animation.addListener
 import androidx.navigation.fragment.findNavController
 import com.example.trivianica.model.claseRecurso.cR
 import com.example.trivianica.R
+import com.example.trivianica.databinding.FragmentBienvenidaBinding
 import com.example.trivianica.ui.activities.MenuPrincipal_activity
+import kotlinx.android.synthetic.main.fragment_bienvenida.view.*
 
 class Bienvenida_fragment : Fragment(), View.OnClickListener
 {
-    var viewBienvenida: View? = null
-    var botonComenzar: Button? = null
+    private var viewBienvenida: View?  = null
+    private var botonComenzar: Button? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        viewBienvenida = inflater.inflate(R.layout.fragment_bienvenida, container, false)
+        viewBienvenida = FragmentBienvenidaBinding.inflate(layoutInflater).root
 
         if(cR.acumulador == 0)
             cR.generarlistaAleatoria()
 
-        botonComenzar = viewBienvenida!!.findViewById(R.id.BotonComenzar)
+        botonComenzar = viewBienvenida!!.BotonComenzar
         botonComenzar!!.setOnClickListener(this)
 
         return viewBienvenida

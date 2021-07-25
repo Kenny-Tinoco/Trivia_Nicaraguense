@@ -23,7 +23,7 @@ class cR//claseRecursos
         lateinit var respaldoPregunta: objetoPregunta
 
         /*Guarda el orden en el que aparecen las categorias en la tombola*/
-        var listaAleatoriaCategoria = IntArray(5){i -> -1}
+        var listaAleatoriaCategoria = IntArray(5){ _ -> -1}
 
         fun tiempoEspera(): Long
         {
@@ -77,7 +77,7 @@ class cR//claseRecursos
 
         fun getNombreDeRegistro(categoriaId: Int): String
         {
-            var nombreDeRegistro = ""
+            var nombreDeRegistro: String
             val nombreCategoria = getNombreCategoria(categoriaId)
             nombreDeRegistro = "categoria$nombreCategoria"
             return nombreDeRegistro

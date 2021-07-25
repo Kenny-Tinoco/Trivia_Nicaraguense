@@ -5,6 +5,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.trivianica.R
 import com.example.trivianica.model.objetoPregunta
+import kotlinx.android.synthetic.main.fragment_preguntas.view.*
 
 class Adapter(private val listener: CategoriaListener)
 {
@@ -13,25 +14,29 @@ class Adapter(private val listener: CategoriaListener)
         val datos = DatosPreguntas(viewPregunta)
         asignarDatos(datos, objeto)
     }
-    private inner class DatosPreguntas(view: View)
+    private inner class DatosPreguntas(viewPregunta: View)
     {
-        val viewPreguntas = view
-        val pregunta:  TextView = view.findViewById<View>(R.id.txtPregunta) as TextView
-        val opcion1:   TextView = view.findViewById<View>(R.id.txtOpcion1)  as TextView
-        val opcion2:   TextView = view.findViewById<View>(R.id.txtOpcion2)  as TextView
-        val opcion3:   TextView = view.findViewById<View>(R.id.txtOpcion3)  as TextView
-        val respuesta: TextView = view.findViewById<View>(R.id.txtRespuesta) as TextView
-        val rlOpcion1: RelativeLayout = view.findViewById<View>(R.id.RL1) as RelativeLayout
-        val rlOpcion2: RelativeLayout = view.findViewById<View>(R.id.RL2) as RelativeLayout
-        val rlOpcion3: RelativeLayout = view.findViewById<View>(R.id.RL3) as RelativeLayout
+        /*Nota
+        * Recordar que el 'viewPregunta' es un view de binding
+        */
 
-        val rlPrincipal: RelativeLayout = view.findViewById<View>(R.id.rlPricipalOpciones) as RelativeLayout
+        val viewPreguntas = viewPregunta
+        val pregunta:  TextView = viewPregunta.txtPregunta
+        val opcion1:   TextView = viewPregunta.txtOpcion1
+        val opcion2:   TextView = viewPregunta.txtOpcion2
+        val opcion3:   TextView = viewPregunta.txtOpcion3
+        val respuesta: TextView = viewPregunta.txtRespuesta
+        val rlOpcion1: RelativeLayout = viewPregunta.RLOpcion1
+        val rlOpcion2: RelativeLayout = viewPregunta.RLOpcion2
+        val rlOpcion3: RelativeLayout = viewPregunta.RLOpcion3
+
+        val rlOpciones: RelativeLayout = viewPregunta.RLOpciones
     }
     private fun asignarDatos(datos: DatosPreguntas, objeto: objetoPregunta)
     {
         comprobarCamposVacios(objeto, datos)
 
-        datos.rlPrincipal.visibility = View.VISIBLE
+        datos.rlOpciones.visibility = View.VISIBLE
 
         datos.pregunta.text  = objeto.Pregunta
         datos.opcion1.text   = objeto.Opcion1
@@ -63,17 +68,17 @@ class Adapter(private val listener: CategoriaListener)
 
     private fun inhabilarBotones(viewPregunta: View, RespuestaCorrecta: Int)
     {
-        var primerRL = R.id.RL2
-        var segundoRl = R.id.RL3
+        var primerRL = R.id.RLOpcion2
+        var segundoRl = R.id.RLOpcion3
         if(RespuestaCorrecta == 2)
         {
-            primerRL = R.id.RL1
-            segundoRl = R.id.RL3
+            primerRL = R.id.RLOpcion1
+            segundoRl = R.id.RLOpcion3
         }
         if(RespuestaCorrecta == 3)
         {
-            primerRL = R.id.RL1
-            segundoRl = R.id.RL2
+            primerRL = R.id.RLOpcion1
+            segundoRl = R.id.RLOpcion2
         }
         viewPregunta.findViewById<RelativeLayout>(primerRL).isEnabled  = false
         viewPregunta.findViewById<RelativeLayout>(segundoRl).isEnabled = false
@@ -84,6 +89,8 @@ class Adapter(private val listener: CategoriaListener)
         {
             objeto.Opcion3 = objeto.Opcion2
             holder.rlOpcion2.visibility = View.GONE
+            if(objeto.RespuestaId.toInt() == 2)
+                objeto.RespuestaId = "3"
         }
         if(objeto.Respuesta == "Campo_Vacio")
             objeto.Respuesta = ""
