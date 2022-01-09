@@ -67,7 +67,7 @@ class Puntuacion_fragment : Fragment()
     /*Acciona los eventos de los botones*/
     private fun eleccionClickListener(Vista: View)
     {
-        cR.acumulador = 0
+        cR.preguntasHechas = 0
         cR.opcionCorrecta = true
         puntaje = 0
 

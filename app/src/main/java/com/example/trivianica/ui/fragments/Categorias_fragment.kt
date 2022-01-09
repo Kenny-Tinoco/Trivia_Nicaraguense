@@ -40,7 +40,7 @@ class Categorias_fragment : Fragment(), animEventoFinalizar
         media!!.start();
 
         /*Asignar el la categoria a categoriaId*/
-        var indice = cR.acumulador
+        var indice = cR.preguntasHechas
         cR.categoriaId = cR.listaAleatoriaCategoria[indice]
 
         iniciarAnimacion(Vista, Titulo, false)

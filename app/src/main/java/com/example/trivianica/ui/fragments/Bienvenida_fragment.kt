@@ -1,27 +1,15 @@
 package com.example.trivianica.ui.fragments
 
 import android.animation.*
-import android.animation.Animator.AnimatorListener
-import android.animation.ValueAnimator.REVERSE
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
-import androidx.core.animation.addListener
 import androidx.navigation.fragment.findNavController
 import com.example.trivianica.model.claseRecurso.cR
 import com.example.trivianica.R
-import com.example.trivianica.ui.activities.MenuPrincipal_activity
 
 class Bienvenida_fragment : Fragment(), View.OnClickListener
 {
@@ -32,7 +20,7 @@ class Bienvenida_fragment : Fragment(), View.OnClickListener
     {
         viewBienvenida = inflater.inflate(R.layout.fragment_bienvenida, container, false)
 
-        if(cR.acumulador == 0)
+        if(cR.preguntasHechas == 0)
             cR.generarlistaAleatoria()
 
         botonComenzar = viewBienvenida!!.findViewById(R.id.BotonComenzar)
@@ -44,7 +32,8 @@ class Bienvenida_fragment : Fragment(), View.OnClickListener
     override fun onClick(v: View?)
     {
         animacionBoton()
-    }//Fin de la función onClick
+    }
+
     private fun animacionBoton()
     {
         val animacion = AnimatorInflater.loadAnimator(context, R.animator.anim_click_botones)
@@ -64,4 +53,4 @@ class Bienvenida_fragment : Fragment(), View.OnClickListener
             }
         })
     }
-}//Fin de fragmento
+}

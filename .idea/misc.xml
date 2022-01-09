@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.18782479584261322" />
         <entry key="..\:/Users/FATC/Desktop/Proyecto_Final_PG/Guardado/TriviaNica/app/src/main/res/layout/activity_menu_principal.xml" value="0.1361111111111111" />
         <entry key="..\:/Users/FATC/Desktop/Proyecto_Final_PG/Guardado/TriviaNica/app/src/main/res/layout/fragment_bienvenida.xml" value="0.16" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

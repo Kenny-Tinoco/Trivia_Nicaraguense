@@ -74,7 +74,7 @@ class Preguntas_fragment : Fragment(), CategoriaListener
 
     override fun onOpcionClicked(opcionMarcada: Int, opcionCorrecta: Int)
     {
-        cR.acumulador++
+        cR.preguntasHechas++
         cR.validador = true
         cR.opcionCorrecta = true
 
@@ -162,15 +162,14 @@ class Preguntas_fragment : Fragment(), CategoriaListener
 
     private fun navegacion_A_Tombola_o_Puntuacion()
     {
-        /*Si el acumulador es menor a 5, se navega a la tombola*/
-        if( cR.acumulador < 5 )
+        if( cR.preguntasHechas < 5 )
         {
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_Preguntas_to_Categorias)
         }
-        else/*Sino, al puntaje*/
+        else
         {
-            cR.acumulador = 0
+            cR.preguntasHechas = 0
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_Preguntas_to_Puntuacion)
         }
@@ -179,7 +178,7 @@ class Preguntas_fragment : Fragment(), CategoriaListener
     private fun preguntaAleatoria(): Int
     {
         val preguntasHechas = RegistroDispositivo.getPreguntasRealizadas(cR.categoriaId)
-        val preguntaId: Int = RegistroDispositivo.getIdPreguntaAleatoria(preguntasHechas)
+        val preguntaId : Int = RegistroDispositivo.getIdPreguntaAleatoria(preguntasHechas)
 
         RegistroDispositivo.guardarDatoEnListaPreguntasRealizadas(preguntaId, preguntasHechas)
         RegistroDispositivo.updatePreguntasRealizadas(cR.categoriaId, preguntasHechas)

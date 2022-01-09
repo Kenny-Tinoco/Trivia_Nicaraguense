@@ -32,13 +32,18 @@ class RegistroDispositivo
         */
         class PreguntasRealizadas
         {
-            var tamaño: Int = VACIO
-            var nombre: String = ""
+            var size: Int = VACIO
+            var name: String = ""
             lateinit var preguntas: MutableList<Int>
+
             fun inicializarLista(nombreCategoria: String)
             {
-                nombre = nombreCategoria
-                preguntas = MutableList(tamaño){ VACIO }
+                name = nombreCategoria
+
+                preguntas = MutableList(size)
+                {
+                    VACIO
+                }
             }
         }
 
@@ -56,7 +61,7 @@ class RegistroDispositivo
             val sharedPreferences = Contexto.getSharedPreferences(nombreCategoria, Context.MODE_PRIVATE)
             val preguntasRealizadas = getPreguntasRealizadas(categoriaId)
 
-            if(preguntasRealizadas.tamaño != VACIO)
+            if(preguntasRealizadas.size != VACIO)
                 with(sharedPreferences.edit())
                 {
                     val nuevaCadena = concatenarLosElementosDe(preguntasRealizadas.preguntas)
@@ -66,12 +71,12 @@ class RegistroDispositivo
         }
         fun inicializarRegistros(size: Int, categoriaId: Int)
         {
-            var preguntasHechas = getPreguntasRealizadas(categoriaId)
+            val preguntasHechas = getPreguntasRealizadas(categoriaId)
 
-            if(preguntasHechas.tamaño == cR.VACIO)
+            if(preguntasHechas.size == cR.VACIO)
             {
                 val nombreDeRegistro = cR.getNombreDeRegistro(categoriaId)
-                preguntasHechas.tamaño = size
+                preguntasHechas.size = size
                 preguntasHechas.inicializarLista(nombreDeRegistro)
                 getRegistroEnDispositivo(nombreDeRegistro, categoriaId)
                 updatePreguntasRealizadas(categoriaId, preguntasHechas)
@@ -80,24 +85,70 @@ class RegistroDispositivo
 
         fun updatePreguntasRealizadas(categoriaId: Int, Preguntas: PreguntasRealizadas)
         {
-            if(categoriaId == cR.ARTE)        Arte        = Preguntas
-            if(categoriaId == cR.DEPORTE)     Deporte     = Preguntas
-            if(categoriaId == cR.GASTRONOMIA) Gastronomia = Preguntas
-            if(categoriaId == cR.GEOGRAFIA)   Geografia   = Preguntas
-            if(categoriaId == cR.HISTORIA)    Historia    = Preguntas
-            if(categoriaId == cR.TRADICION)   Tradicion   = Preguntas
+            if(categoriaId == cR.arteId)
+            {
+                Arte = Preguntas
+            }
+
+            if(categoriaId == cR.deporteId)
+            {
+                Deporte = Preguntas
+            }
+
+            if(categoriaId == cR.gastronomiaId)
+            {
+                Gastronomia = Preguntas
+            }
+
+            if(categoriaId == cR.geografiaId)
+            {
+                Geografia = Preguntas
+            }
+
+            if(categoriaId == cR.historiaId)
+            {
+                Historia = Preguntas
+            }
+
+            if(categoriaId == cR.tradicionId)
+            {
+                Tradicion = Preguntas
+            }
         }
 
         fun getPreguntasRealizadas(categoriaId: Int): PreguntasRealizadas
         {
             var preguntasHechas = PreguntasRealizadas()
 
-            if(categoriaId == cR.ARTE)        preguntasHechas = Arte
-            if(categoriaId == cR.DEPORTE)     preguntasHechas = Deporte
-            if(categoriaId == cR.GASTRONOMIA) preguntasHechas = Gastronomia
-            if(categoriaId == cR.GEOGRAFIA)   preguntasHechas = Geografia
-            if(categoriaId == cR.HISTORIA)    preguntasHechas = Historia
-            if(categoriaId == cR.TRADICION)   preguntasHechas = Tradicion
+            if(categoriaId == cR.arteId)
+            {
+                preguntasHechas = Arte
+            }
+
+            if(categoriaId == cR.deporteId)
+            {
+                preguntasHechas = Deporte
+            }
+
+            if(categoriaId == cR.gastronomiaId)
+            {
+                preguntasHechas = Gastronomia
+            }
+
+            if(categoriaId == cR.geografiaId)
+            {
+                preguntasHechas = Geografia
+            }
+
+            if(categoriaId == cR.historiaId)
+            {
+                preguntasHechas = Historia
+            }
+
+            if(categoriaId == cR.tradicionId)
+            {
+                preguntasHechas = Tradicion
+            }
 
             return preguntasHechas
         }
@@ -117,7 +168,7 @@ class RegistroDispositivo
         }
         fun getIdPreguntaAleatoria(preguntasHechas: PreguntasRealizadas): Int
         {
-            var preguntaId: Int = (0 until preguntasHechas.tamaño).random()
+            var preguntaId: Int = (0 until preguntasHechas.size).random()
 
             if(preguntasHechas.preguntas.contains(preguntaId))
                 preguntaId = getIdPreguntaAleatoria(preguntasHechas)
@@ -171,11 +222,11 @@ class RegistroDispositivo
         {
             if(listaPreguntasRealizadas.preguntas.find{it == -1} == null)
             {
-                for(i in (0 until listaPreguntasRealizadas.tamaño))
+                for(i in (0 until listaPreguntasRealizadas.size))
                 {
                     listaPreguntasRealizadas.preguntas[i] = -1
                 }
             }
         }//Final de comprobarListaLLena
     }//Final de companion object
-}//Final de la Clase
+}

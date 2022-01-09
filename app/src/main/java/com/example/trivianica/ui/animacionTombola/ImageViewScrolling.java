@@ -27,7 +27,9 @@ public class ImageViewScrolling extends FrameLayout
     animEventoFinalizar eventEnd;
 
     public void setEventEnd(animEventoFinalizar eventEnd)
-    {this.eventEnd = eventEnd;}
+    {
+        this.eventEnd = eventEnd;
+    }
 
     public ImageViewScrolling(Context context)
     {
@@ -45,9 +47,9 @@ public class ImageViewScrolling extends FrameLayout
     {
         LayoutInflater.from(context).inflate(R.layout.image_view_scrolling, this);
 
-        ImagenActual  = findViewById(R.id.ImagenActual);
+        ImagenActual = findViewById(R.id.ImagenActual);
         ImagenProxima = findViewById(R.id.ImagenProxima);
-        Titulo        = findViewById(R.id.Titulo);
+        Titulo = findViewById(R.id.Titulo);
 
         ImagenActual.setTranslationY(getHeight());
     }
@@ -88,25 +90,55 @@ public class ImageViewScrolling extends FrameLayout
                         }
                     }
                     @Override
-                    public void onAnimationCancel(Animator animation){}
+                    public void onAnimationCancel(Animator animation)
+                    {}
+
                     @Override
-                    public void onAnimationRepeat(Animator animation){}
+                    public void onAnimationRepeat(Animator animation)
+                    {}
+
                     @Override
-                    public void onAnimationStart(Animator animation){}
+                    public void onAnimationStart(Animator animation)
+                    {}
                 });
     }
 
-    private void setTitulo(TextView Titulo, int categoriaId)
-    {Titulo.setText(cR.Valores.getNombreCategoria(categoriaId));}
+    private void setTitulo(TextView titulo, int categoriaId)
+    {
+        titulo.setText(cR.Valores.getNombreCategoria(categoriaId));
+    }
 
     private void setImagen(ImageView Imagen, int categoriaId)
     {
-             if(categoriaId == cR.Valores.getARTE()       ) Imagen.setImageResource(R.drawable.ic_arte        );
-        else if(categoriaId == cR.Valores.getDEPORTE()    ) Imagen.setImageResource(R.drawable.ic_deportes    );
-        else if(categoriaId == cR.Valores.getGASTRONOMIA()) Imagen.setImageResource(R.drawable.ic_gastronomia );
-        else if(categoriaId == cR.Valores.getGEOGRAFIA()  ) Imagen.setImageResource(R.drawable.ic_geografia   );
-        else if(categoriaId == cR.Valores.getHISTORIA()   ) Imagen.setImageResource(R.drawable.ic_historia    );
-        else if(categoriaId == cR.Valores.getTRADICION()  ) Imagen.setImageResource(R.drawable.ic_tradicion   );
+        if(categoriaId == cR.Valores.getArteId())
+        {
+            Imagen.setImageResource(R.drawable.ic_arte);
+        }
+
+        else if(categoriaId == cR.Valores.getDeporteId())
+        {
+            Imagen.setImageResource(R.drawable.ic_deportes);
+        }
+
+        else if(categoriaId == cR.Valores.getGastronomiaId())
+        {
+            Imagen.setImageResource(R.drawable.ic_gastronomia);
+        }
+
+        else if(categoriaId == cR.Valores.getGeografiaId())
+        {
+            Imagen.setImageResource(R.drawable.ic_geografia);
+        }
+
+        else if(categoriaId == cR.Valores.getHistoriaId())
+        {
+            Imagen.setImageResource(R.drawable.ic_historia);
+        }
+
+        else if(categoriaId == cR.Valores.getTradicionId())
+        {
+            Imagen.setImageResource(R.drawable.ic_tradicion);
+        }
 
         Imagen.setTag(categoriaId);
     }
